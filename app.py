@@ -13,7 +13,8 @@ api = Api(app)
 def create_tables():
     db.create_all()
 
-api.add_resource(User, '/users')
+# api.add_resource(User, '/users')
+api.add_resource(User, '/users', '/users/<int:_id>')
 
 if __name__ == '__main__':
     from db import db
