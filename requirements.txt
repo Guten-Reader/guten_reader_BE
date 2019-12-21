@@ -1,2 +1,3 @@
 Flask==1.1.1
+monkeylearn==3.5.1
 uwsgi
