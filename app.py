@@ -18,7 +18,7 @@ def monkeylearn():
     text = request.json['text']
     ml = MonkeyLearn(os.environ['MONKEYLEARN_KEY'])
     response = ml.classifiers.classify(
-        model_id='cl_pi3C7JiL',
+        model_id=os.environ['MONKEYLEARN_MODEL_ID'],
         data=[text]
     )
     return jsonify(response.body)
