@@ -2,9 +2,7 @@ from flask import Flask, request, jsonify
 from monkeylearn import MonkeyLearn
 from textblob import TextBlob
 
-from google.cloud import language
-from google.cloud.language import enums
-from google.cloud.language import types
+from services.googlelang_service import GoogleLangService
 
 app = Flask(__name__)
 
@@ -35,17 +33,8 @@ def textblob():
 @app.route('/googlelang')
 def googlelang():
     text = request.json['text']
-    client = language.LanguageServiceClient()
-    document = types.Document(
-        content=text,
-        type=enums.Document.Type.PLAIN_TEXT)
-
-    sentiment = client.analyze_sentiment(document=document).document_sentiment
-    print(sentiment)
-    return jsonify({
-        'score': sentiment.score,
-        'magnitude': sentiment.magnitude
-    })
+    service = GoogleLangService(text)
+    return jsonify(service.text_sentiment())
 
 
 if __name__ == '__main__':
