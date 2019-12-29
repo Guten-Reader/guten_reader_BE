@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 from monkeylearn import MonkeyLearn
 from textblob import TextBlob
@@ -15,7 +16,7 @@ def hello():
 @app.route('/monkeylearn')
 def monkeylearn():
     text = request.json['text']
-    ml = MonkeyLearn('a99fe9ee2b2fcd0300543475b1f4205d6a20c400')
+    ml = MonkeyLearn(os.environ['MONKEYLEARN_KEY'])
     response = ml.classifiers.classify(
         model_id='cl_pi3C7JiL',
         data=[text]

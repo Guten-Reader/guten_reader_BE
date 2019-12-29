@@ -1,3 +1,11 @@
+# ignore vscode settings
 .vscode/
+
+# ignore virtualenv files
 venv
+
+# ignore google credentials
 .guten-reader-9011ec8952d0.json
+
+# ignore .env
+.env
