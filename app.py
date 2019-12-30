@@ -1,9 +1,8 @@
-import os
 from flask import Flask, request, jsonify
-from monkeylearn import MonkeyLearn
 from textblob import TextBlob
 
 from services.googlelang_service import GoogleLangService
+from services.monkeylearn_service import MonkeyLearnService
 
 app = Flask(__name__)
 
@@ -16,12 +15,9 @@ def hello():
 @app.route('/monkeylearn')
 def monkeylearn():
     text = request.json['text']
-    ml = MonkeyLearn(os.environ['MONKEYLEARN_KEY'])
-    response = ml.classifiers.classify(
-        model_id=os.environ['MONKEYLEARN_MODEL_ID'],
-        data=[text]
-    )
-    return jsonify(response.body)
+    service = MonkeyLearnService(text)
+    sentiment = service.text_sentiment()
+    return jsonify(sentiment)
 
 
 @app.route('/textblob')
@@ -35,7 +31,8 @@ def textblob():
 def googlelang():
     text = request.json['text']
     service = GoogleLangService(text)
-    return jsonify(service.text_sentiment())
+    sentiment = service.text_sentiment()
+    return jsonify(sentiment)
 
 
 if __name__ == '__main__':

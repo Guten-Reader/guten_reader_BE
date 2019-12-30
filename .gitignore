@@ -9,3 +9,6 @@ guten-reader*
 
 # ignore .env
 .env
+
+# ignore pycache files
+*.pyc
