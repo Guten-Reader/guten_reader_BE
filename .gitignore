@@ -5,7 +5,7 @@
 venv
 
 # ignore google credentials
-.guten-reader-9011ec8952d0.json
+guten-reader*
 
 # ignore .env
 .env
