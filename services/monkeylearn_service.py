@@ -1,9 +1,10 @@
 import os
 from monkeylearn import MonkeyLearn
+from services.clean_text import clean_text
 
 class MonkeyLearnService:
     def __init__(self, text):
-        self.text = text
+        self.text = clean_text(text)
         self.model = MonkeyLearn(os.environ['MONKEYLEARN_KEY'])
         self.model_id = os.environ['MONKEYLEARN_MODEL_ID']
 
