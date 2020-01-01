@@ -13,3 +13,8 @@ class MonkeyLearnService:
             model_id=self.model_id,
             data=[self.text])
         return response.body
+
+    def mood_tag(self):
+        response = self.text_sentiment()
+        mood = response[0]['classifications'][0]['tag_name']
+        return { 'mood_tag': mood }
