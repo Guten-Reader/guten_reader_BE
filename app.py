@@ -3,6 +3,7 @@ from textblob import TextBlob
 
 from services.googlelang_service import GoogleLangService
 from services.monkeylearn_service import MonkeyLearnService
+from services.spotify_service import SpotifyService
 
 app = Flask(__name__)
 
@@ -31,8 +32,9 @@ def textblob():
 def googlelang():
     text = request.json['text']
     service = GoogleLangService(text)
-    sentiment = service.text_sentiment()
-    return jsonify(sentiment)
+    # sentiment = service.text_sentiment()
+    sentiment_value = service.text_sentiment()
+    return jsonify(sentiment_value)
 
 
 if __name__ == '__main__':
