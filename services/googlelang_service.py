@@ -16,25 +16,25 @@ class GoogleLangService:
 
         return sentiment
 
-    def mood_tag(self, score):
-        mood = 'Neutral'
-        if score < -0.33:
-            mood = 'Negative'
-        elif score > 0.33:
-            mood = 'Positive'
-        
-        return mood
+    # def mood_tag(self, score):
+    #     mood = 'Neutral'
+    #     if score < -0.33:
+    #         mood = 'Negative'
+    #     elif score > 0.33:
+    #         mood = 'Positive'
+    #
+    #     return mood
 
     def text_sentiment(self):
         sentiment = self.sentiment_analysis()
         score = sentiment.score
-        mood = self.mood_tag(score)
-        return {
-            'text': self.text,
-            'sentiment': {
-                'mood': mood,
-                'score': score,
-                'magnitude': sentiment.magnitude
-            }
-        }
-        
+        # mood = self.mood_tag(score)
+        # return {
+        #     'text': self.text,
+        #     'sentiment': {
+        #         'mood': mood,
+        #         'score': score,
+        #         'magnitude': sentiment.magnitude
+        #     }
+        # }
+        return score
