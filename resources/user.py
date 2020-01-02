@@ -1,6 +1,6 @@
 from flask_restful import Resource, reqparse
 from models.user import UserModel
-# from flask import jsonify
+from flask import jsonify
 
 class User(Resource):
     parser = reqparse.RequestParser()
@@ -16,8 +16,11 @@ class User(Resource):
                         )
     def get(self, _id):
         user = UserModel.find_by_id(_id)
+
         if user:
-            return user.json()
+            dump(user)
+            return jsonify(user)
+            # return {'message': user.username}
         return {'message': 'User not found'}, 404
 
     def post(self):
