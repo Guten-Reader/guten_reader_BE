@@ -7,7 +7,7 @@
 
 `GET api/v1/recommendation`
 
-**Description:** A user turns a new page in their Gutenberg book. A GET request is sent to `api/v1/recommendation`. The request includes the user's access_token, user_id, and the new page's full text in the request body. 
+**Description:** A user turns a new page in their Gutenberg book. A GET request is sent to `/api/v1/recommendation`. The request includes the user's access_token, user_id, and the new page's full text in the request body. 
 The endpoint conducts a sentiment analysis on the text and returns a value of either 1(Positive), 0.5(Neutral), or 0(Negative) internally. The sentiment value and access_token is used to call Spotify's track recommendation endpoint. The track recommendation endpoint returns a classical track with either a positive, neural, or negative mood. The recommendation endpoint also returns the artist and name of the recommendation track. 
 
 Note: 
@@ -16,7 +16,7 @@ Note:
 
 **Request**
 ```
-GET api/v1/recommendation
+GET /api/v1/recommendation
 Content-Type: application/json
 Accept: application/json
 
