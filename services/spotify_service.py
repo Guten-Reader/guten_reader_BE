@@ -17,7 +17,7 @@ class SpotifyService:
         elif spotify_recommendation.status_code == 401:
             # 401 status code if access_token expired
             # add logic to make GET request to rails app for user's updated access_token
-            # could use user_id or access_token to denote specific user_id
+            # could use user_id or access_token to denote specific user
             # GET request returns updated access_token
             # use updated access_token to make new get_spotify_recommendation request
             # if second recommendation API sucessful then...
