@@ -11,7 +11,7 @@ def hello():
     return 'Guten-Reader API'
 
 
-@app.route('api/v1/monkeylearn')
+@app.route('/api/v1/monkeylearn')
 def monkeylearn():
     text = request.json['text']
     service = MonkeyLearnService(text)
@@ -19,7 +19,7 @@ def monkeylearn():
     return jsonify(sentiment)
 
 
-@app.route('api/v1/recommendation')
+@app.route('/api/v1/recommendation')
 def recommendation():
     text = request.json['text']
     access_token = request.json['access_token']
