@@ -2,14 +2,8 @@ import requests
 
 class SpotifyService:
 
-    #converts google_lang value to spotify valence value
-    def spotify_sentiment_value(self, sentiment_value):
-        converted_value = (sentiment_value + 1)/2
-        return round(converted_value, 1)
-
     def recommend(self, access_token, user_id, sentiment_value):
-        valence = self.spotify_sentiment_value(sentiment_value)
-        spotify_recommendation = self.get_spotify_recommendation(access_token, valence)
+        spotify_recommendation = self.get_spotify_recommendation(access_token, sentiment_value)
 
         if spotify_recommendation.status_code == 200:
             body = spotify_recommendation.json()
@@ -34,8 +28,8 @@ class SpotifyService:
         else:
             return "invalid request"
 
-    def get_spotify_recommendation(self, access_token, valence):
-        params = {'valence': valence,
+    def get_spotify_recommendation(self, access_token, sentiment_value):
+        params = {'valence': sentiment_value,
                   'seed_genres': 'classical',
                   'limit': 1}
         headers = {'Authorization': f'Bearer {access_token}'}
