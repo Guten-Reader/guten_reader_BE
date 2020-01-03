@@ -1,19 +1,25 @@
+import requests
+import os
+
 class SpotifyService:
-    def spotify_sentiment_value(google_lang_sentiment_value):
+
+    #converts google_lang value to spotify valence value
+    def spotify_sentiment_value(self, sentiment_value):
         converted_value = (sentiment_value + 1)/2
-        return converted_value
+        return round(converted_value, 1)
 
-    def recommendation(access_token, user_id, sentiment_value):
-        valence = spotify_sentiment_value(senitment_value)
-         # GET https://api.spotify.com/v1/recommendations?seed_genres=classical&limit=1&valence=[SPOTIFY_SENTIMENT_VALUE]
-         # Needs Authorization in header
-         # if Authorization success
-            # parse JSON for track ID
-            # return track ID
-
-         # if Authorization fails
+    def recommend(self, access_token, user_id, sentiment_value):
+        valence = self.spotify_sentiment_value(sentiment_value)
+        params = {'valence': valence,
+                  'seed_genres': 'classical',
+                  'limit': 1}
+        headers = {'Authorization': f'Bearer {access_token}'}
+        request = requests.get('https://api.spotify.com/v1/recommendations', headers=headers, params=params)
+        body = request.json()
+        return body['tracks'][0]['id']
+        # add following logic to handle if access token invalid
+        # if access token invalid
             # make GET request to rails app to get new access token
             # retry Spotify recommendation API call
             # parse JSOn for track ID
             # return track ID
-        return track_id
