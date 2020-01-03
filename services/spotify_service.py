@@ -13,7 +13,11 @@ class SpotifyService:
 
         if spotify_recommendation.status_code == 200:
             body = spotify_recommendation.json()
-            return body['tracks'][0]['id']
+            return {
+                    'artist': body['tracks'][0]['artists'][0]["name"],
+                    'track_id': body['tracks'][0]['id'],
+                    'track_name': body['tracks'][0]['name']
+                    }
         elif spotify_recommendation.status_code == 401:
             # 401 status code if access_token expired
             # add logic to make GET request to rails app for user's updated access_token
