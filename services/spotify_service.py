@@ -1,5 +1,4 @@
 import requests
-import os
 
 class SpotifyService:
 
@@ -8,22 +7,33 @@ class SpotifyService:
         converted_value = (sentiment_value + 1)/2
         return round(converted_value, 1)
 
-    def recommend_track(self, access_token, user_id, sentiment_value):
+    def recommend(self, access_token, user_id, sentiment_value):
         valence = self.spotify_sentiment_value(sentiment_value)
+        spotify_recommendation = self.get_spotify_recommendation(access_token, valence)
+
+        if spotify_recommendation.status_code == 200:
+            body = spotify_recommendation.json()
+            return body['tracks'][0]['id']
+        elif spotify_recommendation.status_code == 401:
+            # 401 status code if access_token expired
+            # add logic to make GET request to rails app for user's updated access_token
+            # could use user_id or access_token to denote specific user_id
+            # GET request returns updated access_token
+            # use updated access_token to make new get_spotify_recommendation request
+            # if second recommendation API sucessful then...
+                # return track_id
+            # if second_recommendation API fail then...
+                # return error message
+
+            #placeholder for invalid access_token sad path
+            return "invalid token"
+        else:
+            return "invalid request"
+
+    def get_spotify_recommendation(self, access_token, valence):
         params = {'valence': valence,
                   'seed_genres': 'classical',
                   'limit': 1}
         headers = {'Authorization': f'Bearer {access_token}'}
         request = requests.get('https://api.spotify.com/v1/recommendations', headers=headers, params=params)
-        body = request.json()
-        return body['tracks'][0]['id']
-
-        # if access token invalid then...
-            # make GET request to rails app to get new access token
-            # could user user_id or maybe access_token to determine which access_token to update
-            # once access_token updated, retries Spotify recommendation API call above
-            # if second Spotify recommedation API sucessful then...
-                # parse JSON for track ID
-                # return track ID
-            # if second Spotify recommendation API fail then ...
-                # send message call could not be completed
+        return request
