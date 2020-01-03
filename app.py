@@ -32,9 +32,23 @@ def textblob():
 def googlelang():
     text = request.json['text']
     service = GoogleLangService(text)
-    # sentiment = service.text_sentiment()
     sentiment_value = service.text_sentiment()
     return jsonify(sentiment_value)
+
+# returns recommedation for track, requires access token
+@app.route('/recommendation')
+def recommendation():
+    text = request.json['text']
+    access_token = request.json['access_token']
+    user_id = request.json['user_id']
+
+    google_service = GoogleLangService(text)
+    sentiment_value = google_service.text_sentiment()
+
+    spotify_service = SpotifyService()
+    recommend_track_id = spotify_service.recommedation(access_token, user_id, sentiment_value)
+
+    return jsonify(recommend_track_id)
 
 
 if __name__ == '__main__':
