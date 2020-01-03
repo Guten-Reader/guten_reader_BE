@@ -47,9 +47,9 @@ def recommendation():
 
     spotify_service = SpotifyService()
     # takes in access_token for authorization, user_id for potential sad path
-    recommend_track_id = spotify_service.recommend(access_token, user_id, sentiment_value)
+    recommend_track = spotify_service.recommend(access_token, user_id, sentiment_value)
 
-    return jsonify(recommend_track_id)
+    return jsonify(recommend_track)
 
 
 if __name__ == '__main__':
