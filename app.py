@@ -46,7 +46,7 @@ def recommendation():
     sentiment_value = google_service.text_sentiment()
 
     spotify_service = SpotifyService()
-    recommend_track_id = spotify_service.recommend(access_token, user_id, sentiment_value)
+    recommend_track_id = spotify_service.recommend_track(access_token, user_id, sentiment_value)
 
     return jsonify(recommend_track_id)
 
