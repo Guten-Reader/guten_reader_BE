@@ -35,7 +35,7 @@ def googlelang():
     sentiment_value = service.text_sentiment()
     return jsonify(sentiment_value)
 
-# returns recommedation for track, requires access token
+# returns recommedation for track, requires valid access token
 @app.route('/recommendation')
 def recommendation():
     text = request.json['text']
@@ -46,7 +46,7 @@ def recommendation():
     sentiment_value = google_service.text_sentiment()
 
     spotify_service = SpotifyService()
-    recommend_track_id = spotify_service.recommedation(access_token, user_id, sentiment_value)
+    recommend_track_id = spotify_service.recommend(access_token, user_id, sentiment_value)
 
     return jsonify(recommend_track_id)
 
