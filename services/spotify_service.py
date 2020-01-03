@@ -17,9 +17,9 @@ class SpotifyService:
         request = requests.get('https://api.spotify.com/v1/recommendations', headers=headers, params=params)
         body = request.json()
         return body['tracks'][0]['id']
-        # add following logic to handle if access token invalid
+
         # if access token invalid
             # make GET request to rails app to get new access token
             # retry Spotify recommendation API call
-            # parse JSOn for track ID
+            # parse JSON for track ID
             # return track ID
