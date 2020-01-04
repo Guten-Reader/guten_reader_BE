@@ -15,7 +15,7 @@ def hello():
 def monkeylearn():
     text = request.json['text']
     service = MonkeyLearnService(text)
-    sentiment = service.mood_tag()
+    sentiment = service.text_sentiment()
     return jsonify(sentiment)
 
 
