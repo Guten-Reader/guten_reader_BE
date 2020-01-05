@@ -14,4 +14,5 @@ guten-reader*
 *.pyc
 
 # ignore test coverage files
+htmlcov
 .coverage
