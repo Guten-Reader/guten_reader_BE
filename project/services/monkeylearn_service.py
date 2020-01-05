@@ -1,6 +1,6 @@
 import os
 from monkeylearn import MonkeyLearn
-from services.clean_text import clean_text
+from project.services.clean_text import clean_text
 
 class MonkeyLearnService:
     def __init__(self, text):

@@ -1,7 +1,7 @@
 import os
 import unittest
 
-import app
+from project import app
 
 class BasicTests(unittest.TestCase):
     def setUp(self):

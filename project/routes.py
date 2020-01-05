@@ -1,9 +1,7 @@
-from flask import Flask, request, jsonify
-
-from services.monkeylearn_service import MonkeyLearnService
-from services.spotify_service import SpotifyService
-
-app = Flask(__name__)
+from project import app
+from flask import request, jsonify
+from project.services.monkeylearn_service import MonkeyLearnService
+from project.services.spotify_service import SpotifyService
 
 
 @app.route('/')
@@ -33,7 +31,3 @@ def recommendation():
     recommend_track = spotify_service.recommend(access_token, user_id, sentiment_value)
 
     return jsonify(recommend_track)
-
-
-if __name__ == '__main__':
-    app.run(port=5000, debug=True)
