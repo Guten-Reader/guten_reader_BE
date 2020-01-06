@@ -5,6 +5,8 @@ from services.spotify_service import SpotifyService
 
 app = Flask(__name__)
 
+app.config.from_object(os.environ['APP_SETTINGS'])
+
 
 @app.route('/')
 def hello():
