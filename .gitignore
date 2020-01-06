@@ -1,0 +1,18 @@
+# ignore vscode settings
+.vscode/
+
+# ignore virtualenv files
+venv
+
+# ignore google credentials
+guten-reader*
+
+# ignore .env
+.env
+
+# ignore pycache files
+*.pyc
+
+# ignore test coverage files
+htmlcov
+.coverage
