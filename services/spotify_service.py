@@ -10,7 +10,8 @@ class SpotifyService:
             return {
                     'artist': body['tracks'][0]['artists'][0]["name"],
                     'track_id': body['tracks'][0]['id'],
-                    'track_name': body['tracks'][0]['name']
+                    'track_name': body['tracks'][0]['name'],
+                    'track_uri': body['tracks'][0]['uri']
                     }
         elif spotify_recommendation.status_code == 401:
             # 401 status code if access_token expired
