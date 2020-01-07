@@ -16,7 +16,6 @@ def hello():
 
 @app.route('/api/v1/monkeylearn')
 def monkeylearn():
-
     text = request.json['text']
     service = MonkeyLearnService(text)
     sentiment = service.text_sentiment()
@@ -25,7 +24,6 @@ def monkeylearn():
 
 @app.route('/api/v1/recommendation')
 def recommendation():
-
     text = request.json['text']
     access_token = request.json['access_token']
     user_id = request.json['user_id']
