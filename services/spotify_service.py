@@ -44,9 +44,7 @@ class SpotifyService:
 
 
     def get_spotify_recommendation(self, access_token, sentiment_value):
-        params = {'valence': sentiment_value,
-                  'seed_genres': 'classical',
-                  'limit': 1}
+        params = self.song_params(sentiment_value)
         headers = {'Authorization': f'Bearer {access_token}'}
         request = requests.get('https://api.spotify.com/v1/recommendations', headers=headers, params=params)
         return request
