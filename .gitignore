@@ -12,3 +12,7 @@ guten-reader*
 
 # ignore pycache files
 *.pyc
+
+# ignore test coverage files
+.coverage
+htmlcov
