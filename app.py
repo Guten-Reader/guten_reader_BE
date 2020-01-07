@@ -1,3 +1,4 @@
+import os
 from flask import Flask, request, jsonify
 
 from services.monkeylearn_service import MonkeyLearnService
@@ -5,7 +6,7 @@ from services.spotify_service import SpotifyService
 
 app = Flask(__name__)
 
-app.config.from_object(os.environ['APP_SETTINGS'])
+app.config.from_object(os.environ.get('APP_SETTINGS'))
 
 
 @app.route('/')
@@ -38,4 +39,4 @@ def recommendation():
 
 
 if __name__ == '__main__':
-    app.run(port=5000, debug=True)
+    app.run()
