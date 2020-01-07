@@ -1,5 +1,5 @@
 ## Base Url
-`https://guten-server.herokuapp.com/`
+`https://micro-guten.herokuapp.com/`
 
 ## Endpoints
 
