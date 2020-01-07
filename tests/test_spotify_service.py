@@ -11,7 +11,7 @@ class TestSpotifyService(unittest.TestCase):
 
     def test_song_params_for_positive_mood(self):
         service = SpotifyService()
-        result = service.song_params('Positive')
+        result = service.song_params(1)
         expected = {
             'valence': 1,
             'mode': 1,
@@ -22,7 +22,7 @@ class TestSpotifyService(unittest.TestCase):
 
     def test_song_params_for_neutral_mood(self):
         service = SpotifyService()
-        result = service.song_params('Neutral')
+        result = service.song_params(0.5)
         expected = {
             'valence': 0.5,
             'seed_genres': 'classical',
@@ -32,7 +32,7 @@ class TestSpotifyService(unittest.TestCase):
 
     def test_song_params_for_negative_mood(self):
         service = SpotifyService()
-        result = service.song_params('Negative')
+        result = service.song_params(0)
         expected = {
             'valence': 0,
             'mode': 0,
