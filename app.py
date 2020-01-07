@@ -22,7 +22,7 @@ def monkeylearn():
     return jsonify(sentiment)
 
 
-@app.route('/api/v1/recommendation')
+@app.route('/api/v1/recommendation', methods=["POST"])
 def recommendation():
     text = request.json['text']
     access_token = request.json['access_token']
