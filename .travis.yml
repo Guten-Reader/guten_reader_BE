@@ -1,8 +1,16 @@
-language: python
+language:
+  - python
 
 python:
   - 3.7
 
-install: pip install -r requirements.txt
+install:
+  - pip install -r requirements.txt
+  - pip install codecov
 
-script: nose2
+script:
+  - coverage erase
+  - coverage run -m nose2 && coverage html
+
+after_success:
+  - codecov
