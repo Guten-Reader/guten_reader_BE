@@ -1,5 +1,5 @@
 ## Base Url
-`https://guten-server.herokuapp.com/`
+`https://micro-guten.herokuapp.com/`
 
 ## Endpoints
 
@@ -8,7 +8,9 @@
 `GET api/v1/recommendation`
 
 **Description:** A user turns a new page in their Gutenberg book. A GET request is sent to `/api/v1/recommendation`. The request includes the user's access_token, user_id, and the new page's full text in the request body. 
-The endpoint conducts a sentiment analysis on the text and returns a value of either 1(Positive), 0.5(Neutral), or 0(Negative) internally. The sentiment value and access_token is used to call Spotify's track recommendation endpoint. The track recommendation endpoint returns a classical track with either a positive, neural, or negative mood. The recommendation endpoint also returns the artist and name of the recommendation track. 
+The endpoint conducts a sentiment analysis on the text and returns a value of either 1(Positive), 0.5(Neutral), or 0(Negative) internally. The sentiment value and access_token is used to call Spotify's track recommendation endpoint. The track recommendation endpoint returns a classical track with either a positive, neural, or negative mood with the attributes artist, track_name, track_id, and track_uri.
+
+### ATTENTION: Use the track_uri to play the song in Spotify.
 
 Note: 
 - access_token expires hourly. In future iterations, sad path will be built in to automatically request and use an new access token. 
@@ -33,15 +35,21 @@ Accept: application/json
 status: 200
 
 {
-  "artist": "George Frideric Handel",
-  "track_id": "1kr73pbla9W6iI4HMkT9aP",
-  "track_name": "Messiah, HWV 56: Part II, Sc. 6, Hallelujah!"
+  "artist": "Modest Mussorgsky",
+  "track_id": "67F2FBLJL9Wn09qvPe6XVa",
+  "track_name": "Night on Bare Mountain",
+  "track_uri": "spotify:track:67F2FBLJL9Wn09qvPe6XVa"
 }
 
 ```
 
 **Unsuccessful Response**
 ```
+status: 401
+{
+  "error": "invalid token"
+}
+
 status: 400
 
 {

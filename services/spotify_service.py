@@ -7,27 +7,22 @@ class SpotifyService:
 
         if spotify_recommendation.status_code == 200:
             body = spotify_recommendation.json()
-            return {
+            return { 'message': {
                     'artist': body['tracks'][0]['artists'][0]["name"],
                     'track_id': body['tracks'][0]['id'],
                     'track_name': body['tracks'][0]['name'],
                     'track_uri': body['tracks'][0]['uri']
-                    }
+                    }, 'status_code': 200 }
         elif spotify_recommendation.status_code == 401:
-            # 401 status code if access_token expired
-            # add logic to make GET request to rails app for user's updated access_token
-            # could use user_id or access_token to denote specific user
-            # GET request returns updated access_token
-            # use updated access_token to make new get_spotify_recommendation request
-            # if second recommendation API sucessful then...
-                # return track_id
-            # if second_recommendation API fail then...
-                # return error message
+            request = requests.get(f'https://guten-server.herokuapp.com/api/v1/access_token/{user_id}')
 
-            #placeholder for invalid access_token sad path
-            return "invalid token"
+            if request.status_code == 200:
+                access_token = request.json()['access_token']
+                return self.recommend(access_token, user_id, sentiment_value)
+            else:
+                return { 'message': f"User:{user_id} does not exist", 'status_code': 404}
         else:
-            return "invalid request"
+            return { 'message': "Bad request", 'status_code': 400 }
 
     def song_params(self, sentiment_value):
         params = {
@@ -39,7 +34,7 @@ class SpotifyService:
             params['mode'] = 1
         elif sentiment_value == 0:
             params['mode'] = 0
-        
+
         return params
 
 

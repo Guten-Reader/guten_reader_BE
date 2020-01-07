@@ -16,6 +16,7 @@ def hello():
 
 @app.route('/api/v1/monkeylearn')
 def monkeylearn():
+
     text = request.json['text']
     service = MonkeyLearnService(text)
     sentiment = service.text_sentiment()
@@ -24,6 +25,7 @@ def monkeylearn():
 
 @app.route('/api/v1/recommendation')
 def recommendation():
+
     text = request.json['text']
     access_token = request.json['access_token']
     user_id = request.json['user_id']
@@ -32,10 +34,9 @@ def recommendation():
     sentiment_value = monkeylearn_service.mood_value()
 
     spotify_service = SpotifyService()
-    # takes in access_token for authorization, user_id for potential sad path
     recommend_track = spotify_service.recommend(access_token, user_id, sentiment_value)
 
-    return jsonify(recommend_track)
+    return jsonify(recommend_track['message']), recommend_track['status_code']
 
 
 if __name__ == '__main__':
