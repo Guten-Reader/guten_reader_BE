@@ -1,7 +1,6 @@
 import requests
 
 class SpotifyService:
-
     def recommend(self, access_token, user_id, sentiment_value):
         spotify_recommendation = self.get_spotify_recommendation(access_token, sentiment_value)
 
@@ -29,6 +28,7 @@ class SpotifyService:
         else:
             return "invalid request"
 
+
     def song_params(self, sentiment_value):
         params = {'seed_genres': 'classical', 'limit': 1}
         if sentiment_value == 'Positive':
@@ -41,9 +41,7 @@ class SpotifyService:
 
 
     def get_spotify_recommendation(self, access_token, sentiment_value):
-        params = {'valence': sentiment_value,
-                  'seed_genres': 'classical',
-                  'limit': 1}
+        params = self.song_params(sentiment_value)
         headers = {'Authorization': f'Bearer {access_token}'}
         request = requests.get('https://api.spotify.com/v1/recommendations', headers=headers, params=params)
         return request
