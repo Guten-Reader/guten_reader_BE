@@ -29,10 +29,22 @@ class SpotifyService:
         else:
             return "invalid request"
 
+    def song_params(self, sentiment_value):
+        params = {
+            'valence': sentiment_value,
+            'seed_genres': 'classical',
+            'limit': 1,
+        }
+        if sentiment_value == 1:
+            params['mode'] = 1
+        elif sentiment_value == 0:
+            params['mode'] = 0
+        
+        return params
+
+
     def get_spotify_recommendation(self, access_token, sentiment_value):
-        params = {'valence': sentiment_value,
-                  'seed_genres': 'classical',
-                  'limit': 1}
+        params = self.song_params(sentiment_value)
         headers = {'Authorization': f'Bearer {access_token}'}
         request = requests.get('https://api.spotify.com/v1/recommendations', headers=headers, params=params)
         return request
