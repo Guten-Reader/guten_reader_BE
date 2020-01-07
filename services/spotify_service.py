@@ -33,6 +33,10 @@ class SpotifyService:
         params = {'seed_genres': 'classical', 'limit': 1}
         if sentiment_value == 'Positive':
             params.update({'valence': 1, 'mode':1})
+        elif sentiment_value == 'Neutral':
+            params.update({'valence': 0.5})
+        else:
+            params.update({'valence': 0, 'mode': 0})
         return params
 
 
