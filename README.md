@@ -3,18 +3,20 @@
 
 ## Endpoints
 
-### GET recommendation for Spotify track using sentiment analysis 
+### POST recommendation for Spotify track using sentiment analysis 
 
-`GET api/v1/recommendation`
+`POST api/v1/recommendation`
+
 
 **Description:** A user turns a new page in their Gutenberg book. A GET request is sent to `/api/v1/recommendation`. The request includes the user's `access_token`, the `current_mood`, and the new page's full `text` in the request body. 
 The endpoint conducts a sentiment analysis on the text and returns a value of either 1(Positive), 0.5(Neutral), or 0(Negative) internally. The sentiment value and access_token is used to call Spotify's track recommendation endpoint. The track recommendation endpoint returns an array of 10 classical tracks (as track_uri) with either a positive, neutral, or negative mood.
 
 #### Note: Use the track_uri to play the song in Spotify.
 
+
 **Request**
 ```
-GET /api/v1/recommendation
+POST /api/v1/recommendation
 Content-Type: application/json
 Accept: application/json
 
