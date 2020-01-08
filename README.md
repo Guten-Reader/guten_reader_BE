@@ -1,3 +1,38 @@
+# GutenReader Microservice
+![image](https://user-images.githubusercontent.com/18686466/72020934-1a54c600-322a-11ea-9e19-52c827510294.png)
+
+[GutenReader](https://github.com/Guten-Reader/guten_reader_FE) is an app built in React Native for reading books hosted by [Project Gutenberg](https://www.gutenberg.org/). This microservice allows the app to play music that matches the current mood of the page the user is reading.
+
+## Installation
+NOTE: You will need to create an account at [monkeylearn.com](https://monkeylearn.com/) and include the API key and model id as environment variables MONKEYLEARN_KEY, MONKEYLEARN_MODEL_ID.
+
+1. Clone the repository
+```
+$ git clone git@github.com:Guten-Reader/guten_reader_BE.git
+```
+
+2. Create/activate virtual environment
+```
+$ virtualenv venv --python=python3.7
+$ source venv/bin/activate
+```
+
+3. Install dependencies
+```
+$ pip install -r requirements.txt
+```
+
+4. Start the server in development environment
+```
+$ export APP_SETTINGS="config.TestingConfig"
+$ python app.py
+```
+
+5. Run the tests
+```
+$ nose2
+```
+
 ## Base Url
 `https://micro-guten.herokuapp.com/`
 
