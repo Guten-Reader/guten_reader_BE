@@ -24,15 +24,18 @@ def monkeylearn():
 
 @app.route('/api/v1/recommendation', methods=["POST"])
 def recommendation():
-    text = request.json['text']
-    access_token = request.json['access_token']
-    current_mood = request.json['current_mood']
+    body = request.get_json()
+    required_params = {'text', 'current_mood', 'access_token'}
+    missing_params = list(required_params - set(body.keys()))
 
-    monkeylearn_service = MonkeyLearnService(text)
+    if missing_params:
+        return jsonify({'error': {'missing_params': missing_params}}), 400
+
+    monkeylearn_service = MonkeyLearnService(body['text'])
     new_mood = monkeylearn_service.mood_value()
 
-    if current_mood != new_mood:
-        spotify_service = SpotifyService(access_token, new_mood)
+    if body['current_mood'] != new_mood:
+        spotify_service = SpotifyService(body['access_token'], new_mood)
         result = spotify_service.recommend()
         return jsonify(result), result['status_code']
     else:
