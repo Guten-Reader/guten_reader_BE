@@ -27,11 +27,9 @@ Accept: application/json
 }
 ```
 
-**Successful Response**
+**Successful Response - If new page has DIFFERENT MOOD than current_mood**
 
 ```
-# if the new page has a DIFFERENT MOOD than `current_mood`
-
 status: 200
 
 {
@@ -50,15 +48,19 @@ status: 200
   ],
   "status_code": 200
 }
+```
+**Successful Response - If new page has SAME MOOD than current_mood**
 
-# if the new page has the SAME MOOD than `current_mood`
-
+```
 status: 204
 
 NO CONTENT
+
 ```
 
-**Unsuccessful Response**
+
+**Unsuccessful Response - If access_token expired**
+
 ```
 status: 401
 
@@ -67,6 +69,23 @@ status: 401
   "status_code": 401
 }
 
+```
+**Unsuccessful Response - If invalid body request. Missing access_token, current_mood, and/or text**
+
+```
+status: 400
+
+{
+    "error": {
+        "missing_params": [
+            "current_mood"
+        ]
+    }
+}
+```
+
+**Unsuccessful Response - If invalid request by Spotify external API call**
+```
 status: 400
 
 {
