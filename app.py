@@ -24,7 +24,7 @@ def monkeylearn():
 
 @app.route('/api/v1/recommendation', methods=["POST"])
 def recommendation():
-    body = request.get_json()
+    body =  {} if request.get_data() == b'' else request.get_json()
     required_params = {'text', 'current_mood', 'access_token'}
     missing_params = list(required_params - set(body.keys()))
 
