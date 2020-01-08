@@ -50,11 +50,10 @@ status: 200
 }
 
 # if the new page has the SAME MOOD than `current_mood`
-status: 200
 
-{
-  "message": "No new tracks recommended"
-}
+status: 204
+
+NO CONTENT
 ```
 
 **Unsuccessful Response**

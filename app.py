@@ -36,7 +36,7 @@ def recommendation():
         result = spotify_service.recommend()
         return jsonify(result), result['status_code']
     else:
-        return jsonify({'message': 'No new tracks recommended'})
+        return '', 204
 
 
 if __name__ == '__main__':
