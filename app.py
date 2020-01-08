@@ -26,15 +26,19 @@ def monkeylearn():
 def recommendation():
     text = request.json['text']
     access_token = request.json['access_token']
-    user_id = request.json['user_id']
+    current_mood = request.json['current_mood']
 
     monkeylearn_service = MonkeyLearnService(text)
-    sentiment_value = monkeylearn_service.mood_value()
+    sentiment = monkeylearn_service.mood_value()
 
-    spotify_service = SpotifyService()
-    recommend_track = spotify_service.recommend(access_token, user_id, sentiment_value)
+    if current_mood != sentiment:
+        spotify_service = SpotifyService()
+        recommend_track = spotify_service.recommend(access_token, sentiment)
 
-    return jsonify(recommend_track['message']), recommend_track['status_code']
+        return jsonify(recommend_track['result']), recommend_track['status_code']
+    else:
+        return jsonify({'message': 'No new tracks recommended'}), 200
+
 
 
 if __name__ == '__main__':
