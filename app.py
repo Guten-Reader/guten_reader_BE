@@ -22,19 +22,21 @@ def monkeylearn():
     return jsonify(sentiment)
 
 
-@app.route('/api/v1/recommendation')
+@app.route('/api/v1/recommendation', methods=["POST"])
 def recommendation():
     text = request.json['text']
     access_token = request.json['access_token']
-    user_id = request.json['user_id']
+    current_mood = request.json['current_mood']
 
     monkeylearn_service = MonkeyLearnService(text)
-    sentiment_value = monkeylearn_service.mood_value()
+    new_mood = monkeylearn_service.mood_value()
 
-    spotify_service = SpotifyService()
-    recommend_track = spotify_service.recommend(access_token, user_id, sentiment_value)
-
-    return jsonify(recommend_track['message']), recommend_track['status_code']
+    if current_mood != new_mood:
+        spotify_service = SpotifyService(access_token, new_mood)
+        result = spotify_service.recommend()
+        return jsonify(result), result['status_code']
+    else:
+        return '', 204
 
 
 if __name__ == '__main__':
