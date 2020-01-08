@@ -2,39 +2,36 @@ import requests
 
 class SpotifyService:
 
-    def recommend(self, access_token, user_id, sentiment_value):
-        spotify_recommendation = self.get_spotify_recommendation(access_token, sentiment_value)
+    def recommend(self, access_token, sentiment):
+        spotify_recommendation = self.get_spotify_recommendation(access_token, sentiment)
 
         if spotify_recommendation.status_code == 200:
             body = spotify_recommendation.json()
-            return { 'message': {
-                    'artist': body['tracks'][0]['artists'][0]["name"],
-                    'track_id': body['tracks'][0]['id'],
-                    'track_name': body['tracks'][0]['name'],
-                    'track_uri': body['tracks'][0]['uri']
-                    }, 'status_code': 200 }
+        
+            track_list = []
+            for item in body['tracks']:
+                track_list.append(item['uri'])
+            print(track_list)
+
+            return { 'result': { 'recommended_tracks': track_list, 'mood': sentiment}, 'status_code': 200 }
         elif spotify_recommendation.status_code == 401:
-            request = requests.get(f'https://guten-server.herokuapp.com/api/v1/access_token/{user_id}')
-
-            if request.status_code == 200:
-                access_token = request.json()['access_token']
-                return self.recommend(access_token, user_id, sentiment_value)
-            else:
-                return { 'message': f"User:{user_id} does not exist", 'status_code': 404}
+            return { 'result': { 'message': "The access token expired"}, 'status_code': 401}
         else:
-            return { 'message': "Bad request", 'status_code': 400 }
+            return { 'result': { 'message': "Bad request"}, 'status_code': 400 }
 
-    def song_params(self, sentiment_value):
+    def song_params(self, sentiment):
         params = {
-            'valence': sentiment_value,
             'seed_genres': 'classical',
-            'limit': 1,
-        }
-        if sentiment_value == 1:
+            'limit': 10,
+            }
+        if sentiment == 'Positive':
             params['mode'] = 1
-        elif sentiment_value == 0:
+            params['valence'] = 1
+        elif sentiment == 'Negative':
             params['mode'] = 0
-
+            params['valence'] = 0
+        else:
+            params['valence'] = 0.5
         return params
 
 
