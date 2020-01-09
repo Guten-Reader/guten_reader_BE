@@ -76,6 +76,7 @@ class TestSpotifyService(unittest.TestCase):
         self.assertEqual(200, result['status_code'])
         self.assertDictEqual(expected, result)
 
+
     @patch('services.spotify_service.requests.get')
     def test_recommend_sad_path(self, mock_get):
         file_path = 'tests/fixtures/spotify_expired_token.json'
