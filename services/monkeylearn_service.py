@@ -8,11 +8,13 @@ class MonkeyLearnService:
         self.model = MonkeyLearn(os.environ.get('MONKEYLEARN_KEY'))
         self.model_id = os.environ.get('MONKEYLEARN_MODEL_ID')
 
+
     def text_sentiment(self):
         response = self.model.classifiers.classify(
             model_id=self.model_id,
             data=[self.text])
         return response.body
+
 
     def mood_value(self):
         response = self.text_sentiment()
