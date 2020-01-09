@@ -47,7 +47,7 @@ class TestSpotifyService(unittest.TestCase):
 
 
     @patch('services.spotify_service.requests.get')
-    def test_recommend(self, mock_get):
+    def test_recommend_happy_path(self, mock_get):
         file_path = 'tests/fixtures/spotify_tracks.json'
         with open(file_path) as json_file:
             tracks_data = json.load(json_file)
@@ -74,6 +74,23 @@ class TestSpotifyService(unittest.TestCase):
             'status_code': 200}
 
         self.assertEqual(200, result['status_code'])
+        self.assertDictEqual(expected, result)
+
+    @patch('services.spotify_service.requests.get')
+    def test_recommend_sad_path(self, mock_get):
+        file_path = 'tests/fixtures/spotify_expired_token.json'
+        with open(file_path) as json_file:
+            message = json.load(json_file)
+
+        mock_get.return_value.status_code = 401
+        mock_get.return_value.json.return_value = message
+
+        service = SpotifyService('token', 'Positive')
+        result = service.recommend()
+
+        expected = { 'message': 'The access token expired', 'status_code': 401 }
+        
+        self.assertEqual(401, result['status_code'])
         self.assertDictEqual(expected, result)
 
 

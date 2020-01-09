@@ -47,7 +47,7 @@ class SpotifyService:
     
 
     def _expired_token(self):
-        return { 'message': 'The access token expired', 'status_code': 401}
+        return { 'message': 'The access token expired', 'status_code': 401 }
     
 
     def _recommended_tracks(self, body):
