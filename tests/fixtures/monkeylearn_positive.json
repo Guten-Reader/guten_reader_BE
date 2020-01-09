@@ -1,0 +1,14 @@
+[
+  {
+    "text": "Super positive great happy fun times",
+    "external_id": null,
+    "error": false,
+    "classifications": [
+      {
+        "tag_name": "Positive",
+        "tag_id": 33767179,
+        "confidence": 0.998
+      }
+    ]
+  }
+]

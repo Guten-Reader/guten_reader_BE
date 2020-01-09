@@ -13,8 +13,6 @@ class SpotifyService:
             return self._recommended_tracks(body)
         elif spotify_recommendation.status_code == 401:
             return self._expired_token()
-        else:
-            return self._bad_request()
 
 
     def song_params(self):
@@ -40,14 +38,10 @@ class SpotifyService:
             headers=headers,
             params=params)
         return response
-
-
-    def _bad_request(self):
-        return { 'message': 'Bad request', 'status_code': 400 }
     
 
     def _expired_token(self):
-        return { 'message': 'The access token expired', 'status_code': 401}
+        return { 'message': 'The access token expired', 'status_code': 401 }
     
 
     def _recommended_tracks(self, body):
