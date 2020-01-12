@@ -5,3 +5,4 @@ nose2==0.9.1
 python-dotenv==0.10.3
 requests==2.22.0
 uwsgi
+ibm-watson>=4.1.0

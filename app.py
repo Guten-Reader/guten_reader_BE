@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, jsonify
 
 from services.monkeylearn_service import MonkeyLearnService
+from services.watson_service import WatsonService
 from services.spotify_service import SpotifyService
 
 app = Flask(__name__)
@@ -12,6 +13,13 @@ app.config.from_object(os.environ.get('APP_SETTINGS'))
 @app.route('/')
 def hello():
     return 'Guten-Reader API'
+
+@app.route('/api/v1/watson')
+def watson():
+    text = request.json['text']
+    service = WatsonService()
+    sentiment = service.do_thing(text)
+    return jsonify(sentiment)
 
 
 @app.route('/api/v1/monkeylearn')
