@@ -10,6 +10,15 @@ class WatsonService:
         self.text = clean_text(text)
         self.authenticator = IAMAuthenticator(os.environ.get('WATSON_API'))
 
+    def convert_to_mood(self, sentiment_value):
+    #watson sentiment value on scale from -1.0 to 1.0
+        if sentiment_value > 0.25:
+            return "postive"
+        elif sentiment_value < -0.25:
+            return "negative"
+        else:
+            return "neutral"
+
 
     def get_sentiment(self):
         service = NaturalLanguageUnderstandingV1(
@@ -21,7 +30,9 @@ class WatsonService:
             response = service.analyze(
                 text=self.text,
                 features=Features(sentiment=SentimentOptions())).get_result()
-            return response['sentiment']['document']['score']
+            sentiment_value = response['sentiment']['document']['score']
+            return self.convert_to_mood(sentiment_value)
         except:
-        # "Error: not enough text for language id, Code: 422"
-            return 0.0
+        # Error: not enough text for language id, Code: 422
+        # if not enough text, return neutral
+            return self.convert_to_mood(0.0)
