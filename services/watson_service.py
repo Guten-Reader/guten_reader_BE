@@ -1,7 +1,7 @@
 import os
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
-from ibm_watson.natural_language_understanding_v1 import Features, CategoriesOptions
+from ibm_watson.natural_language_understanding_v1 import Features, SentimentOptions
 
 class WatsonService:
 
@@ -14,7 +14,11 @@ class WatsonService:
 
         natural_language_understanding.set_service_url(os.environ.get('WATSON_URL'))
 
-        response = natural_language_understanding.analyze(text='chicken love chicken', features=Features(categories=CategoriesOptions(limit=3))).get_result()
-
-        # print(json.dumps(response, indent=2))
-        return response
+        response = natural_language_understanding.analyze(
+            text=text,
+            features=Features(
+                sentiment=SentimentOptions()
+            )
+        )
+        # API call working, need error handling for 422 (Error: not enough text for language id)
+        return response.get_result()
