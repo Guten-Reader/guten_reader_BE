@@ -19,10 +19,10 @@ class SpotifyService:
         params = {
             'seed_genres': 'classical',
             'limit': 10 }
-        if self.sentiment == 'Positive':
+        if self.sentiment == 'positive':
             params['mode']    = 1
             params['valence'] = 1
-        elif self.sentiment == 'Negative':
+        elif self.sentiment== 'negative':
             params['mode']    = 0
             params['valence'] = 0
         else:
@@ -38,11 +38,11 @@ class SpotifyService:
             headers=headers,
             params=params)
         return response
-    
+
 
     def _expired_token(self):
         return { 'message': 'The access token expired', 'status_code': 401 }
-    
+
 
     def _recommended_tracks(self, body):
         track_list = []
