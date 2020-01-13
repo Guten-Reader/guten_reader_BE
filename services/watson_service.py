@@ -1,6 +1,7 @@
 import os
 from ibm_watson import NaturalLanguageUnderstandingV1
 from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
+from ibm_watson.natural_language_understanding_v1 import Features, CategoriesOptions
 
 class WatsonService:
 
@@ -15,4 +16,5 @@ class WatsonService:
 
         response = natural_language_understanding.analyze( url='www.ibm.com', features=Features(categories=CategoriesOptions(limit=3))).get_result()
 
-        print(json.dumps(response, indent=2))
+        # print(json.dumps(response, indent=2))
+        return response
