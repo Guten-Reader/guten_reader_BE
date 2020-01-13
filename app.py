@@ -39,8 +39,8 @@ def recommendation():
     if missing_params:
         return jsonify({'error': {'missing_params': missing_params}}), 400
 
-    monkeylearn_service = MonkeyLearnService(body['text'])
-    new_mood = monkeylearn_service.mood_value()
+    watson_service = WatsonService(body['text'])
+    new_mood = watson_service.get_sentiment()
 
     if body['current_mood'] != new_mood:
         spotify_service = SpotifyService(body['access_token'], new_mood)
