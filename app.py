@@ -17,8 +17,8 @@ def hello():
 @app.route('/api/v1/watson')
 def watson():
     text = request.json['text']
-    service = WatsonService()
-    sentiment = service.do_thing(text)
+    service = WatsonService(text)
+    sentiment = service.get_sentiment()
     return jsonify(sentiment)
 
 
