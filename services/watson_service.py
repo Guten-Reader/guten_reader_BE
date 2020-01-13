@@ -14,7 +14,7 @@ class WatsonService:
 
         natural_language_understanding.set_service_url(os.environ.get('WATSON_URL'))
 
-        response = natural_language_understanding.analyze( url='www.ibm.com', features=Features(categories=CategoriesOptions(limit=3))).get_result()
+        response = natural_language_understanding.analyze(text='chicken love chicken', features=Features(categories=CategoriesOptions(limit=3))).get_result()
 
         # print(json.dumps(response, indent=2))
         return response
