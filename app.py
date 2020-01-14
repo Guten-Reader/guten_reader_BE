@@ -42,6 +42,8 @@ def recommendation():
     watson_service = WatsonService(body['text'])
     new_mood = watson_service.get_sentiment()
 
+    # new_mood updated to either 1, 0.5, or 0 instead of negative, positive, neutral
+    # frontend could save 1, 0.5, or 0 in state for comparison
     if body['current_mood'] != new_mood:
         spotify_service = SpotifyService(body['access_token'], new_mood)
         result = spotify_service.recommend()
