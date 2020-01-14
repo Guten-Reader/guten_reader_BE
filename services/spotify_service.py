@@ -19,10 +19,10 @@ class SpotifyService:
         params = {
             'seed_genres': 'classical',
             'limit': 10 }
-        if self.sentiment == 'positive':
+        if self.sentiment == 1:
             params['mode']    = 1
             params['valence'] = 1
-        elif self.sentiment== 'negative':
+        elif self.sentiment== 0:
             params['mode']    = 0
             params['valence'] = 0
         else:
