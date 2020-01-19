@@ -3,6 +3,7 @@ import json
 from unittest.mock import patch
 from app import app
 from services.monkeylearn_service import MonkeyLearnService
+from services.watson_service import WatsonService
 from services.spotify_service import SpotifyService
 
 class TestHello(unittest.TestCase):
@@ -22,7 +23,7 @@ class TestHello(unittest.TestCase):
         file_path = 'tests/fixtures/monkeylearn_positive.json'
         with open(file_path) as json_file:
             ml_data = json.load(json_file)
-        
+
         mock_text_sentiment.return_value = ml_data
 
         data = {'text': 'Super positive great happy fun times'}
@@ -33,13 +34,30 @@ class TestHello(unittest.TestCase):
         self.assertEqual(200, response.status_code)
         self.assertDictEqual(ml_data[0], response.json[0])
 
-    @patch('services.spotify_service.requests.get')
-    @patch.object(MonkeyLearnService, 'text_sentiment')
-    def test_POST_recommendation(self, mock_text_sentiment, mock_get):
-        file_path = 'tests/fixtures/monkeylearn_positive.json'
+    @patch.object(WatsonService, 'get_sentiment')
+    def test_get_watson(self, mock_text_sentiment):
+        file_path = 'tests/fixtures/watson_positive.json'
         with open(file_path) as json_file:
             ml_data = json.load(json_file)
-        
+
+        mock_text_sentiment.return_value = ml_data
+
+        data = {'text': "after signalling to him to stop:\r\n\r\n'Tell me, Johann, what is tonight?'\r\n\r\nHe crossed himself, as he answered laconically: 'Walpurgis nacht.' Then he took out his watch, a great, old-fashioned German silver thing as big as a turnip, and looked at it, with his eyebrows gathered together and a little impatient shrug of his shoulders. I realised that this was his way of respectfully protesting against the unnecessary delay, and sank back in the carriage, merely motioning him to proceed. He started off rapidly, as if to make up for lost time. Every now and then the horses seemed to throw up their" }
+
+        response = self.app.get('/api/v1/watson',
+                                data=json.dumps(data),
+                                content_type='application/json')
+
+        self.assertEqual(200, response.status_code)
+        self.assertDictEqual(ml_data[0], response.json[0])
+
+    @patch('services.spotify_service.requests.get')
+    @patch.object(WatsonService, 'get_sentiment')
+    def test_POST_recommendation(self, mock_text_sentiment, mock_get):
+        file_path = 'tests/fixtures/watson_positive.json'
+        with open(file_path) as json_file:
+            ml_data = json.load(json_file)
+
         mock_text_sentiment.return_value = ml_data
 
         file_path = 'tests/fixtures/spotify_tracks.json'
@@ -50,7 +68,7 @@ class TestHello(unittest.TestCase):
         mock_get.return_value.json.return_value = tracks_data
 
         data = {
-            'text': 'Super positive great happy fun times',
+            'text': "after signalling to him to stop:\r\n\r\n'Tell me, Johann, what is tonight?'\r\n\r\nHe crossed himself, as he answered laconically: 'Walpurgis nacht.' Then he took out his watch, a great, old-fashioned German silver thing as big as a turnip, and looked at it, with his eyebrows gathered together and a little impatient shrug of his shoulders. I realised that this was his way of respectfully protesting against the unnecessary delay, and sank back in the carriage, merely motioning him to proceed. He started off rapidly, as if to make up for lost time. Every now and then the horses seemed to throw up their",
             'current_mood': 'Negative',
             'access_token': 'totally-real-access-token'
         }
@@ -78,7 +96,7 @@ class TestHello(unittest.TestCase):
         self.assertDictEqual(expected, response.json)
 
         new_data = {
-            'text': 'Super positive great happy fun times',
+            'text': 'Super positive great happy fun times fun happy awesome',
             'current_mood': 'Positive',
             'access_token': 'totally-real-access-token'
         }
