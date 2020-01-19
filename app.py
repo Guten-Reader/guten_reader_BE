@@ -40,7 +40,7 @@ def recommendation():
         return jsonify({ 'error': { 'missing_params': missing_params }}), 400
 
     watson_service = WatsonService(body['text'])
-    new_mood = watson_service.get_sentiment()
+    new_mood = watson_service.get_sentiment_value()
 
     if body['current_mood'] != new_mood:
         spotify_service = SpotifyService(body['access_token'], new_mood)
