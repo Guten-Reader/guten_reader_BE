@@ -8,10 +8,8 @@ from ibm_watson.natural_language_understanding_v1 import Features, SentimentOpti
 class WatsonService:
     def __init__(self, text):
         self.text = clean_text(text)
-        self.authenticator = IAMAuthenticator(os.environ.get('WATSON_API'))
 
     def convert_to_spotify_valence(self, sentiment_value):
-    #watson sentiment value on scale from -1.0 to 1.0
         if sentiment_value > 0.25:
             return 1
         elif sentiment_value < -0.25:
@@ -19,20 +17,24 @@ class WatsonService:
         else:
             return 0.5
 
+    def get_sentiment_value(self):
+        response = self.get_text_analyze()
+        if response.status_code == 200:
+            sentiment_value = response.get_result()['sentiment']['document']['score']
+            return self.convert_to_spotify_valence(sentiment_value)
+        else:
+            return self.convert_to_spotify_valence(0.0)
 
-    def get_sentiment(self):
+
+    def get_text_analyze(self):
         service = NaturalLanguageUnderstandingV1(
             version='2019-07-12',
-            authenticator=self.authenticator )
+            authenticator= IAMAuthenticator(os.environ.get('WATSON_API')) )
         service.set_service_url(os.environ.get('WATSON_URL'))
-
         try:
             response = service.analyze(
                 text=self.text,
-                features=Features(sentiment=SentimentOptions())).get_result()
-            sentiment_value = response['sentiment']['document']['score']
-            return self.convert_to_spotify_valence(sentiment_value)
+                features=Features(sentiment=SentimentOptions()))
+            return response
         except:
-        # Error: not enough text for language id, Code: 422
-        # if not enough text, return neutral
-            return self.convert_to_spotify_valence(0.0)
+            return response
