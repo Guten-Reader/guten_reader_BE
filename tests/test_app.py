@@ -42,7 +42,9 @@ class TestHello(unittest.TestCase):
 
         mock_text_sentiment.return_value = ml_data
 
-        data = {'text': "after signalling to him to stop:\r\n\r\n'Tell me, Johann, what is tonight?'\r\n\r\nHe crossed himself, as he answered laconically: 'Walpurgis nacht.' Then he took out his watch, a great, old-fashioned German silver thing as big as a turnip, and looked at it, with his eyebrows gathered together and a little impatient shrug of his shoulders. I realised that this was his way of respectfully protesting against the unnecessary delay, and sank back in the carriage, merely motioning him to proceed. He started off rapidly, as if to make up for lost time. Every now and then the horses seemed to throw up their" }
+        data = {
+            'text': "after signalling to him to stop:\r\n\r\n'Tell me, Johann, what is tonight?'\r\n\r\nHe crossed himself, as he answered laconically: 'Walpurgis nacht.' Then he took out his watch, a great, old-fashioned German silver thing as big as a turnip, and looked at it, with his eyebrows gathered together and a little impatient shrug of his shoulders. I realised that this was his way of respectfully protesting against the unnecessary delay, and sank back in the carriage, merely motioning him to proceed. He started off rapidly, as if to make up for lost time. Every now and then the horses seemed to throw up their"
+        }
 
         response = self.app.get('/api/v1/watson',
                                 data=json.dumps(data),

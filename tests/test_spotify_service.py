@@ -35,7 +35,7 @@ class TestSpotifyService(unittest.TestCase):
 
 
     def test_song_params_for_negative_mood(self):
-        service = SpotifyService('token', 'Negative')
+        service = SpotifyService('token', 0)
         result = service.song_params()
         expected = {
             'valence': 0,
