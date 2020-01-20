@@ -9,6 +9,7 @@ class WatsonService:
         self.text = clean_text(text)
 
     def convert_to_spotify_valence(self, sentiment_value):
+        import code; code.interact(local=dict(globals(), **locals()))
         if sentiment_value > 0.25:
             return 1
         elif sentiment_value < -0.25:
@@ -16,24 +17,26 @@ class WatsonService:
         else:
             return 0.5
 
+    def check_num_chars(self):
+        return len(self.text) > 20
+
     def get_sentiment_value(self):
-        response = self.get_watson_text_analyze()
-        if response.status_code == 200:
-            sentiment_value = response.get_result()['sentiment']['document']['score']
+        num_chars_ok = self.check_num_chars()
+        if num_chars_ok:
+            response = self.get_watson_text_analyze()
+            import code; code.interact(local=dict(globals(), **locals()))
+            sentiment_value = response['sentiment']['document']['score']
             return self.convert_to_spotify_valence(sentiment_value)
         else:
-            return self.convert_to_spotify_valence(0.0)
-
+            return 0.5
 
     def get_watson_text_analyze(self):
         service = NaturalLanguageUnderstandingV1(
             version='2019-07-12',
             authenticator= IAMAuthenticator(os.environ.get('WATSON_API')) )
         service.set_service_url(os.environ.get('WATSON_URL'))
-        try:
-            response = service.analyze(
-                text=self.text,
-                features=Features(sentiment=SentimentOptions()))
-            return response
-        except:
-            return response
+
+        response = service.analyze(
+            text=self.text,
+            features=Features(sentiment=SentimentOptions()))
+        return response.get_result()
