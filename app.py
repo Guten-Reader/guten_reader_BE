@@ -14,6 +14,7 @@ app.config.from_object(os.environ.get('APP_SETTINGS'))
 def hello():
     return 'Guten-Reader API'
 
+
 @app.route('/api/v1/watson')
 def watson():
     text = request.json['text']
