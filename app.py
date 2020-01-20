@@ -18,7 +18,7 @@ def hello():
 def watson():
     text = request.json['text']
     service = WatsonService(text)
-    sentiment = service.get_sentiment()
+    sentiment = service.get_sentiment_value()
     return jsonify(sentiment)
 
 
