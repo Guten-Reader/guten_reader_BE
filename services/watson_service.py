@@ -9,7 +9,6 @@ class WatsonService:
         self.text = clean_text(text)
 
     def convert_to_spotify_valence(self, sentiment_value):
-        import code; code.interact(local=dict(globals(), **locals()))
         if sentiment_value > 0.25:
             return 1
         elif sentiment_value < -0.25:
@@ -24,7 +23,6 @@ class WatsonService:
         num_chars_ok = self.check_num_chars()
         if num_chars_ok:
             response = self.get_watson_text_analyze()
-            import code; code.interact(local=dict(globals(), **locals()))
             sentiment_value = response['sentiment']['document']['score']
             return self.convert_to_spotify_valence(sentiment_value)
         else:
