@@ -10,6 +10,7 @@ class TestWatsonService(unittest.TestCase):
         app.config.from_object('config.TestingConfig')
         self.app = app.test_client()
 
+
     @patch.object(WatsonService, 'get_watson_text_analyze')
     def test_watson_service_happy_path(self, mock_text_sentiment):
         file_path = 'tests/fixtures/watson_positive.json'
@@ -22,6 +23,7 @@ class TestWatsonService(unittest.TestCase):
         result = service.get_sentiment_value()
 
         self.assertEqual( 1, result)
+
 
     @patch.object(WatsonService, 'get_watson_text_analyze')
     def test_watson_service_sad_pathes(self, mock_text_sentiment):

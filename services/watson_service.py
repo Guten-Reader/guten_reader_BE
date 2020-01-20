@@ -8,16 +8,19 @@ class WatsonService:
     def __init__(self, text):
         self.text = clean_text(text)
 
+
     def convert_to_spotify_valence(self, sentiment_value):
-        if sentiment_value > 0.25:
+        if sentiment_value > 0.333:
             return 1
-        elif sentiment_value < -0.25:
+        elif sentiment_value < -0.333:
             return 0
         else:
             return 0.5
 
+
     def check_num_chars(self):
         return len(self.text) > 20
+
 
     def get_sentiment_value(self):
         num_chars_ok = self.check_num_chars()
@@ -27,6 +30,7 @@ class WatsonService:
             return self.convert_to_spotify_valence(sentiment_value)
         else:
             return 0.5
+
 
     def get_watson_text_analyze(self):
         service = NaturalLanguageUnderstandingV1(

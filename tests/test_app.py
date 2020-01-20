@@ -97,7 +97,6 @@ class TestHello(unittest.TestCase):
             'status_code': 200}
 
         self.assertEqual(200, response.status_code)
-
         self.assertDictEqual(expected, response.json)
 
         new_data = {
