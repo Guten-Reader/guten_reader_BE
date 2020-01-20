@@ -18,13 +18,8 @@ class WatsonService:
             return 0.5
 
 
-    def check_num_chars(self):
-        return len(self.text) > 20
-
-
     def get_sentiment_value(self):
-        num_chars_ok = self.check_num_chars()
-        if num_chars_ok:
+        if len(self.text) > 20:
             response = self.get_watson_text_analyze()
             sentiment_value = response['sentiment']['document']['score']
             return self.convert_to_spotify_valence(sentiment_value)
