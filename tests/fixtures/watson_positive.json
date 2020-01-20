@@ -1,1 +1,14 @@
-0.1
+{
+  "usage": {
+    "text_units": 1,
+    "text_characters": 21,
+    "features": 1
+  },
+  "sentiment": {
+    "document": {
+      "score": 0.99118,
+      "label": "positive"
+    }
+  },
+  "language": "en"
+}
