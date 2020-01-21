@@ -46,5 +46,21 @@ class TestWatsonService(unittest.TestCase):
         self.assertEqual( 0.5, result)
 
 
+    def test_watson_service_convert_to_valence(self):
+
+        service = WatsonService('Super positive awesome great special')
+        result = service.convert_to_spotify_valence(0.98888)
+
+        self.assertEqual( 1, result)
+
+        result = service.convert_to_spotify_valence(-0.555)
+
+        self.assertEqual( 0, result)
+
+        result = service.convert_to_spotify_valence(-0.05)
+
+        self.assertEqual( 0.5, result)
+
+
 if __name__ == "__main__":
     unittest.main()
