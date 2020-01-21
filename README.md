@@ -1,7 +1,9 @@
 # GutenReader Microservice
+[![Build Status](https://travis-ci.com/Guten-Reader/guten_reader_BE.svg?branch=master)](https://travis-ci.com/Guten-Reader/guten_reader_BE)
+
 ![image](https://user-images.githubusercontent.com/18686466/72020934-1a54c600-322a-11ea-9e19-52c827510294.png)
 
-[GutenReader](https://github.com/Guten-Reader/guten_reader_FE) is an app built in React Native for reading books hosted by [Project Gutenberg](https://www.gutenberg.org/). This microservice allows the app to play music that matches the current mood of the page the user is reading.
+[GutenReader](https://github.com/Guten-Reader/guten_reader_FE) is an app built in React Native for reading books hosted by [Project Gutenberg](https://www.gutenberg.org/). This microservice allows the app to play music that matches the current mood of the page the user is reading. GutenReader also uses a [Rails API](https://github.com/Guten-Reader/guten_reader_api) to handle database interaction.
 
 ## Installation
 NOTE: You will need to create an account at [monkeylearn.com](https://monkeylearn.com/) and include the API key and model id as environment variables MONKEYLEARN_KEY, MONKEYLEARN_MODEL_ID.
@@ -127,3 +129,11 @@ status: 400
     "error": "invalid request"
 }
 ```
+
+## Contributors
+- **Mack Halliday**
+    - [GitHub](https://github.com/MackHalliday)
+    - [LinkedIn](https://www.linkedin.com/in/mackhalliday/)
+- **Fenton Taylor**
+    - [GitHub](https://github.com/fentontaylor)
+    - [LinkedIn](https://www.linkedin.com/in/fenton-taylor-006057122/)

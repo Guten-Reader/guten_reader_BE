@@ -16,7 +16,7 @@ class TestRecommendationSadPath(unittest.TestCase):
                                 data=json.dumps(data),
                                 content_type='application/json')
         self.assertEqual(400, response.status_code)
-        
+
         data = response.get_json()
         error_response = {"error": {"missing_params": ["text"]}}
         self.assertDictEqual(error_response, data)
@@ -27,7 +27,7 @@ class TestRecommendationSadPath(unittest.TestCase):
                                 data=json.dumps(data),
                                 content_type='application/json')
         self.assertEqual(400, response.status_code)
-        
+
         data = response.get_json()
         data_missing_params = set(data['error']['missing_params'])
         expected_missing_params = set(["text", "current_mood", "access_token"])
@@ -38,7 +38,7 @@ class TestRecommendationSadPath(unittest.TestCase):
                                 data='',
                                 content_type='application/json')
         self.assertEqual(400, response.status_code)
-        
+
         data = response.get_json()
         data_missing_params = set(data['error']['missing_params'])
         expected_missing_params = set(["text", "current_mood", "access_token"])

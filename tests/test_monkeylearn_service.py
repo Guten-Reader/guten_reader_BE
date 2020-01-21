@@ -15,7 +15,7 @@ class TestMonkeyLearnService(unittest.TestCase):
         file_path = 'tests/fixtures/monkeylearn_positive.json'
         with open(file_path) as json_file:
             ml_data = json.load(json_file)
-        
+
         mock_text_sentiment.return_value = ml_data
 
         service = MonkeyLearnService('Super positive great happy fun times')

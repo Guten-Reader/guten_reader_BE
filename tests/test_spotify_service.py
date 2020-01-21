@@ -12,7 +12,7 @@ class TestSpotifyService(unittest.TestCase):
 
 
     def test_song_params_for_positive_mood(self):
-        service = SpotifyService('token', 'Positive')
+        service = SpotifyService('token', 1)
         result = service.song_params()
         expected = {
             'valence': 1,
@@ -24,7 +24,7 @@ class TestSpotifyService(unittest.TestCase):
 
 
     def test_song_params_for_neutral_mood(self):
-        service = SpotifyService('token', 'Neutral')
+        service = SpotifyService('token', 0.5)
         result = service.song_params()
         expected = {
             'valence': 0.5,
@@ -35,7 +35,7 @@ class TestSpotifyService(unittest.TestCase):
 
 
     def test_song_params_for_negative_mood(self):
-        service = SpotifyService('token', 'Negative')
+        service = SpotifyService('token', 0)
         result = service.song_params()
         expected = {
             'valence': 0,
@@ -57,7 +57,7 @@ class TestSpotifyService(unittest.TestCase):
 
         service = SpotifyService('token', 'Positive')
         result = service.recommend()
-        
+
         expected = {
             'mood': 'Positive',
             'recommended_tracks': [
@@ -90,7 +90,7 @@ class TestSpotifyService(unittest.TestCase):
         result = service.recommend()
 
         expected = { 'message': 'The access token expired', 'status_code': 401 }
-        
+
         self.assertEqual(401, result['status_code'])
         self.assertDictEqual(expected, result)
 

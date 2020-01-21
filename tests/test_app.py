@@ -3,6 +3,8 @@ import json
 from unittest.mock import patch
 from app import app
 from services.monkeylearn_service import MonkeyLearnService
+from services.watson_service import WatsonService
+from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from services.spotify_service import SpotifyService
 
 class TestHello(unittest.TestCase):
@@ -22,7 +24,7 @@ class TestHello(unittest.TestCase):
         file_path = 'tests/fixtures/monkeylearn_positive.json'
         with open(file_path) as json_file:
             ml_data = json.load(json_file)
-        
+
         mock_text_sentiment.return_value = ml_data
 
         data = {'text': 'Super positive great happy fun times'}
@@ -30,16 +32,38 @@ class TestHello(unittest.TestCase):
                                 data=json.dumps(data),
                                 content_type='application/json')
 
+
         self.assertEqual(200, response.status_code)
         self.assertDictEqual(ml_data[0], response.json[0])
 
-    @patch('services.spotify_service.requests.get')
-    @patch.object(MonkeyLearnService, 'text_sentiment')
-    def test_POST_recommendation(self, mock_text_sentiment, mock_get):
-        file_path = 'tests/fixtures/monkeylearn_positive.json'
+
+    @patch.object(WatsonService, 'get_watson_text_analyze')
+    def test_get_watson(self, mock_text_sentiment):
+        file_path = 'tests/fixtures/watson_positive.json'
         with open(file_path) as json_file:
             ml_data = json.load(json_file)
-        
+
+        mock_text_sentiment.return_value = ml_data
+
+        data = {
+            'text': "after signalling to him to stop:\r\n\r\n'Tell me, Johann, what is tonight?'\r\n\r\nHe crossed himself, as he answered laconically: 'Walpurgis nacht.' Then he took out his watch, a great, old-fashioned German silver thing as big as a turnip, and looked at it, with his eyebrows gathered together and a little impatient shrug of his shoulders. I realised that this was his way of respectfully protesting against the unnecessary delay, and sank back in the carriage, merely motioning him to proceed. He started off rapidly, as if to make up for lost time. Every now and then the horses seemed to throw up their"
+        }
+
+        response = self.app.get('/api/v1/watson',
+                                data=json.dumps(data),
+                                content_type='application/json')
+
+        self.assertEqual(200, response.status_code)
+        self.assertEqual(1, response.json)
+
+
+    @patch('services.spotify_service.requests.get')
+    @patch.object(WatsonService, 'get_watson_text_analyze')
+    def test_POST_recommendation(self, mock_text_sentiment, mock_get):
+        file_path = 'tests/fixtures/watson_positive.json'
+        with open(file_path) as json_file:
+            ml_data = json.load(json_file)
+
         mock_text_sentiment.return_value = ml_data
 
         file_path = 'tests/fixtures/spotify_tracks.json'
@@ -50,8 +74,8 @@ class TestHello(unittest.TestCase):
         mock_get.return_value.json.return_value = tracks_data
 
         data = {
-            'text': 'Super positive great happy fun times',
-            'current_mood': 'Negative',
+            'text': 'Super positive great happy fun awesome great wonderful times',
+            'current_mood': 0,
             'access_token': 'totally-real-access-token'
         }
 
@@ -60,7 +84,7 @@ class TestHello(unittest.TestCase):
                                 content_type='application/json')
 
         expected = {
-            'mood': 'Positive',
+            'mood': 1,
             'recommended_tracks': [
                 'spotify:track:6PrKZUXJPmBiobMN44yR8Y',
                 'spotify:track:1IM8x4lxZVOOP9gpQD6c5s',
@@ -79,7 +103,7 @@ class TestHello(unittest.TestCase):
 
         new_data = {
             'text': 'Super positive great happy fun times',
-            'current_mood': 'Positive',
+            'current_mood': 1,
             'access_token': 'totally-real-access-token'
         }
 
@@ -88,7 +112,6 @@ class TestHello(unittest.TestCase):
                                 content_type='application/json')
 
         self.assertEqual(204, response.status_code)
-
 
 if __name__ == "__main__":
     unittest.main()
