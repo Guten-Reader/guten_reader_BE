@@ -2,6 +2,7 @@ import os
 from flask import Flask, request, jsonify
 
 from services.monkeylearn_service import MonkeyLearnService
+from services.watson_service import WatsonService
 from services.spotify_service import SpotifyService
 
 app = Flask(__name__)
@@ -12,6 +13,14 @@ app.config.from_object(os.environ.get('APP_SETTINGS'))
 @app.route('/')
 def hello():
     return 'Guten-Reader API'
+
+
+@app.route('/api/v1/watson')
+def watson():
+    text = request.json['text']
+    service = WatsonService(text)
+    sentiment = service.get_sentiment_value()
+    return jsonify(sentiment)
 
 
 @app.route('/api/v1/monkeylearn')
@@ -29,10 +38,10 @@ def recommendation():
     missing_params = list(required_params - set(body.keys()))
 
     if missing_params:
-        return jsonify({'error': {'missing_params': missing_params}}), 400
+        return jsonify({ 'error': { 'missing_params': missing_params }}), 400
 
-    monkeylearn_service = MonkeyLearnService(body['text'])
-    new_mood = monkeylearn_service.mood_value()
+    watson_service = WatsonService(body['text'])
+    new_mood = watson_service.get_sentiment_value()
 
     if body['current_mood'] != new_mood:
         spotify_service = SpotifyService(body['access_token'], new_mood)
