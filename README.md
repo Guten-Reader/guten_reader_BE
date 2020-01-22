@@ -6,7 +6,7 @@
 [GutenReader](https://github.com/Guten-Reader/guten_reader_FE) is an app built in React Native for reading books hosted by [Project Gutenberg](https://www.gutenberg.org/). This microservice allows the app to play music that matches the current mood of the page the user is reading. GutenReader also uses a [Rails API](https://github.com/Guten-Reader/guten_reader_api) to handle database interaction.
 
 ## Installation
-NOTE: If running locally, you will need to create an account with [IMB Cloud](https://www.ibm.com/cloud/watson-natural-language-understanding). Once you create the account, from your user dashboard board click 'Create Resource' and then select 'Natural Language Understanding'. Click 'Create' and obtain the resources API Key and URL. In the Flask .env file, set the API Key equal to `WATSON_API` and the URL to `WATSON_URL`. 
+NOTE: If running locally, you will need to create an account with [IMB Cloud](https://www.ibm.com/cloud/watson-natural-language-understanding). Once you create the account, from your user dashboard click 'Create Resource' and then select 'Natural Language Understanding'. Click 'Create' and obtain the resources API Key and URL. In the Flask .env file, set the API Key equal to `WATSON_API` and the URL to `WATSON_URL`. 
 
 
 1. Clone the repository
