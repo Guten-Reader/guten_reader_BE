@@ -9,8 +9,9 @@ class TestRecommendationSadPath(unittest.TestCase):
 
     def test_recommendation_missing_single_param(self):
         data = {
-            "current_mood": "Negative",
-            "access_token": "this-is-totally-an-access-token"
+            'current_mood': 'Negative',
+            'access_token': 'this-is-totally-an-access-token',
+            'genre': 'classical'
         }
         response = self.app.post('/api/v1/recommendation',
                                 data=json.dumps(data),
@@ -30,7 +31,7 @@ class TestRecommendationSadPath(unittest.TestCase):
 
         data = response.get_json()
         data_missing_params = set(data['error']['missing_params'])
-        expected_missing_params = set(["text", "current_mood", "access_token"])
+        expected_missing_params = set(['text', 'current_mood', 'access_token', 'genre'])
         self.assertSetEqual(expected_missing_params, data_missing_params)
 
     def test_recommendation_with_empty_body(self):
@@ -41,7 +42,7 @@ class TestRecommendationSadPath(unittest.TestCase):
 
         data = response.get_json()
         data_missing_params = set(data['error']['missing_params'])
-        expected_missing_params = set(["text", "current_mood", "access_token"])
+        expected_missing_params = set(['text', 'current_mood', 'access_token', 'genre'])
         self.assertSetEqual(expected_missing_params, data_missing_params)
 
 

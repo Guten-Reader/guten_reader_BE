@@ -1,9 +1,10 @@
 import requests
 
 class SpotifyService:
-    def __init__(self, access_token, sentiment):
+    def __init__(self, access_token, sentiment, genre):
         self.access_token = access_token
         self.sentiment = sentiment
+        self.genre = 'idm' if genre == 'electronic' else genre
 
 
     def recommend(self):
@@ -17,8 +18,9 @@ class SpotifyService:
 
     def song_params(self):
         params = {
-            'seed_genres': 'classical',
-            'limit': 10 }
+            'seed_genres': self.genre,
+            'limit': 10
+        }
         if self.sentiment == 1:
             params['mode']    = 1
             params['valence'] = 1

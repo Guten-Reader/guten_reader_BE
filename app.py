@@ -34,7 +34,7 @@ def monkeylearn():
 @app.route('/api/v1/recommendation', methods=["POST"])
 def recommendation():
     body =  {} if request.get_data() == b'' else request.get_json()
-    required_params = {'text', 'current_mood', 'access_token'}
+    required_params = {'text', 'current_mood', 'access_token', 'genre'}
     missing_params = list(required_params - set(body.keys()))
 
     if missing_params:
@@ -44,7 +44,7 @@ def recommendation():
     new_mood = watson_service.get_sentiment_value()
 
     if body['current_mood'] != new_mood:
-        spotify_service = SpotifyService(body['access_token'], new_mood)
+        spotify_service = SpotifyService(body['access_token'], new_mood, body['genre'])
         result = spotify_service.recommend()
         return jsonify(result), result['status_code']
     else:
