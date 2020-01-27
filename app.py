@@ -44,7 +44,7 @@ def recommendation():
     new_mood = watson_service.get_sentiment_value()
 
     if body['current_mood'] != new_mood:
-        spotify_service = SpotifyService(body['access_token'], new_mood)
+        spotify_service = SpotifyService(body['access_token'], new_mood, body['genre'])
         result = spotify_service.recommend()
         return jsonify(result), result['status_code']
     else:
