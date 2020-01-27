@@ -76,7 +76,8 @@ class TestHello(unittest.TestCase):
         data = {
             'text': 'Super positive great happy fun awesome great wonderful times',
             'current_mood': 0,
-            'access_token': 'totally-real-access-token'
+            'access_token': 'totally-real-access-token',
+            'genre': 'classical'
         }
 
         response = self.app.post('/api/v1/recommendation',
@@ -104,7 +105,8 @@ class TestHello(unittest.TestCase):
         new_data = {
             'text': 'Super positive great happy fun times',
             'current_mood': 1,
-            'access_token': 'totally-real-access-token'
+            'access_token': 'totally-real-access-token',
+            'genre': 'classical'
         }
 
         response = self.app.post('/api/v1/recommendation',
@@ -112,6 +114,7 @@ class TestHello(unittest.TestCase):
                                 content_type='application/json')
 
         self.assertEqual(204, response.status_code)
+
 
 if __name__ == "__main__":
     unittest.main()
