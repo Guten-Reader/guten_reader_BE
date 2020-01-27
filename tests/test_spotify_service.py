@@ -12,7 +12,7 @@ class TestSpotifyService(unittest.TestCase):
 
 
     def test_song_params_for_positive_mood(self):
-        service = SpotifyService('token', 1)
+        service = SpotifyService('token', 1, 'classical')
         result = service.song_params()
         expected = {
             'valence': 1,
@@ -24,7 +24,7 @@ class TestSpotifyService(unittest.TestCase):
 
 
     def test_song_params_for_neutral_mood(self):
-        service = SpotifyService('token', 0.5)
+        service = SpotifyService('token', 0.5, 'classical')
         result = service.song_params()
         expected = {
             'valence': 0.5,
@@ -35,7 +35,7 @@ class TestSpotifyService(unittest.TestCase):
 
 
     def test_song_params_for_negative_mood(self):
-        service = SpotifyService('token', 0)
+        service = SpotifyService('token', 0, 'classical')
         result = service.song_params()
         expected = {
             'valence': 0,
@@ -77,7 +77,7 @@ class TestSpotifyService(unittest.TestCase):
         mock_get.return_value.status_code = 200
         mock_get.return_value.json.return_value = tracks_data
 
-        service = SpotifyService('token', 'Positive')
+        service = SpotifyService('token', 'Positive', 'classical')
         result = service.recommend()
 
         expected = {
@@ -108,7 +108,7 @@ class TestSpotifyService(unittest.TestCase):
         mock_get.return_value.status_code = 401
         mock_get.return_value.json.return_value = message
 
-        service = SpotifyService('token', 'Positive')
+        service = SpotifyService('token', 'Positive', 'classical')
         result = service.recommend()
 
         expected = { 'message': 'The access token expired', 'status_code': 401 }

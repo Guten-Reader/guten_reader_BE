@@ -1,7 +1,7 @@
 import requests
 
 class SpotifyService:
-    def __init__(self, access_token, sentiment, genre='classical'):
+    def __init__(self, access_token, sentiment, genre):
         self.access_token = access_token
         self.sentiment = sentiment
         self.genre = 'idm' if genre == 'electronic' else genre
