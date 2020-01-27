@@ -46,8 +46,8 @@ $ nose2
 `POST api/v1/recommendation`
 
 
-**Description:** A user turns a new page in their Gutenberg book. A GET request is sent to `/api/v1/recommendation`. The request includes the user's `access_token`, the `current_mood`, and the new page's full `text` in the request body. 
-The endpoint conducts a sentiment analysis on the text and returns a value of either 1(Positive), 0.5(Neutral), or 0(Negative) internally. The sentiment value and access_token is used to call Spotify's track recommendation endpoint. The track recommendation endpoint returns an array of 10 classical tracks (as track_uri) with either a positive, neutral, or negative mood.
+**Description:** A user turns a new page in their Gutenberg book. A GET request is sent to `/api/v1/recommendation`. The request includes the user's `access_token`, the `current_mood`, the music `genre` and the new page's full `text` in the request body. 
+The endpoint conducts a sentiment analysis on the text and returns a value of either 1(Positive), 0.5(Neutral), or 0(Negative) internally. The sentiment value and access_token is used to call Spotify's track recommendation endpoint. The track recommendation endpoint returns an array of 10 classical tracks (as track_uri) with the mood value (1, 0.5, 0).
 
 The body of the request requires an access_token. You can obtain an access_token by visiting the [access_token endpoint on our Rails app](http://guten-server.herokuapp.com/api/v1/access_token/1). Access_token expires hourly. 
 
@@ -61,9 +61,10 @@ Content-Type: application/json
 Accept: application/json
 
 {
-  "current_mood": "Neutral",
+  "current_mood": 0.5,
 	"text": "This is a very happy and positive statement.",
-	"access_token": "BQCUhf-kwMIv9TrDe9boSzrRr-Z6xmuPLoqTAgEyJDJD6G4HIMlQHgRX6BWllCfIxOpK2kQQCiHDsqa3svALu0jPyuAnw6-dn1tjkpB1SSAGL6ma3Q1ZIegcIfKS1v4ag-Gb8uUKc9ch5tt20vazj_PXmK0"
+	"access_token": "BQCUhf-kwMIv9TrDe9boSzrRr-Z6xmuPLoqTAgEyJDJD6G4HIMlQHgRX6BWllCfIxOpK2kQQCiHDsqa3svALu0jPyuAnw6-dn1tjkpB1SSAGL6ma3Q1ZIegcIfKS1v4ag-Gb8uUKc9ch5tt20vazj_PXmK0",
+  "genre": "classical"
 }
 ```
 
@@ -73,7 +74,7 @@ Accept: application/json
 status: 200
 
 {
-  "mood": "Positive",
+  "mood": 1,
   "recommended_tracks": [
     "spotify:track:0qkMYjXnxz91fEnnuMZNi0",
     "spotify:track:2LhRrWfxTV6ZW1XAOb2OGa",
@@ -110,7 +111,7 @@ status: 401
 }
 
 ```
-**Unsuccessful Response - If invalid body request. Missing access_token, current_mood, and/or text**
+**Unsuccessful Response - If invalid body request. Missing access_token, current_mood, genre and/or text**
 
 ```
 status: 400
@@ -118,7 +119,10 @@ status: 400
 {
     "error": {
         "missing_params": [
-            "current_mood"
+            "current_mood",
+            "access_token",
+            "genre",
+            "text"
         ]
     }
 }
@@ -139,4 +143,4 @@ status: 400
     - [LinkedIn](https://www.linkedin.com/in/mackhalliday/)
 - **Fenton Taylor**
     - [GitHub](https://github.com/fentontaylor)
-    - [LinkedIn](https://www.linkedin.com/in/fenton-taylor-006057122/)
+    - [LinkedIn](https://www.linkedin.com/in/fentontaylor/)
