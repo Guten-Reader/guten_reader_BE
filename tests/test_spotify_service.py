@@ -45,6 +45,28 @@ class TestSpotifyService(unittest.TestCase):
         }
         self.assertDictEqual(expected, result)
 
+    
+    def test_song_params_for_piano_genre(self):
+        service = SpotifyService('token', 0.5, 'piano')
+        result = service.song_params()
+        expected = {
+            'valence': 0.5,
+            'seed_genres': 'piano',
+            'limit': 10
+        }
+        self.assertDictEqual(expected, result)
+
+    
+    def test_song_params_for_electronic_genre(self):
+        service = SpotifyService('token', 0.5, 'electronic')
+        result = service.song_params()
+        expected = {
+            'valence': 0.5,
+            'seed_genres': 'idm',
+            'limit': 10
+        }
+        self.assertDictEqual(expected, result)
+
 
     @patch('services.spotify_service.requests.get')
     def test_recommend_happy_path(self, mock_get):
