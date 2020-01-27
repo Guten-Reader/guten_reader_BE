@@ -6,7 +6,8 @@
 [GutenReader](https://github.com/Guten-Reader/guten_reader_FE) is an app built in React Native for reading books hosted by [Project Gutenberg](https://www.gutenberg.org/). This microservice allows the app to play music that matches the current mood of the page the user is reading. GutenReader also uses a [Rails API](https://github.com/Guten-Reader/guten_reader_api) to handle database interaction.
 
 ## Installation
-NOTE: You will need to create an account at [monkeylearn.com](https://monkeylearn.com/) and include the API key and model id as environment variables MONKEYLEARN_KEY, MONKEYLEARN_MODEL_ID.
+NOTE: If running locally, you will need to create an account with [IMB Cloud](https://www.ibm.com/cloud/watson-natural-language-understanding). Once you create the account, from your user dashboard click 'Create Resource' and then select 'Natural Language Understanding'. Click 'Create' and obtain the resource's API Key and URL. In the Flask .env file, set the API Key equal to `WATSON_API` and the URL to `WATSON_URL`. 
+
 
 1. Clone the repository
 ```
@@ -47,6 +48,8 @@ $ nose2
 
 **Description:** A user turns a new page in their Gutenberg book. A GET request is sent to `/api/v1/recommendation`. The request includes the user's `access_token`, the `current_mood`, and the new page's full `text` in the request body. 
 The endpoint conducts a sentiment analysis on the text and returns a value of either 1(Positive), 0.5(Neutral), or 0(Negative) internally. The sentiment value and access_token is used to call Spotify's track recommendation endpoint. The track recommendation endpoint returns an array of 10 classical tracks (as track_uri) with either a positive, neutral, or negative mood.
+
+The body of the request requires an access_token. You can obtain an access_token by visiting the [access_token endpoint on our Rails app](http://guten-server.herokuapp.com/api/v1/access_token/1). Access_token expires hourly. 
 
 #### Note: Use the track_uri to play the song in Spotify.
 

@@ -76,7 +76,8 @@ class TestHello(unittest.TestCase):
         data = {
             'text': 'Super positive great happy fun awesome great wonderful times',
             'current_mood': 0,
-            'access_token': 'totally-real-access-token'
+            'access_token': 'totally-real-access-token',
+            'genre': 'classical'
         }
 
         response = self.app.post('/api/v1/recommendation',
@@ -104,7 +105,8 @@ class TestHello(unittest.TestCase):
         new_data = {
             'text': 'Super positive great happy fun times',
             'current_mood': 1,
-            'access_token': 'totally-real-access-token'
+            'access_token': 'totally-real-access-token',
+            'genre': 'classical'
         }
 
         response = self.app.post('/api/v1/recommendation',
@@ -112,6 +114,94 @@ class TestHello(unittest.TestCase):
                                 content_type='application/json')
 
         self.assertEqual(204, response.status_code)
+
+
+    @patch('services.spotify_service.requests.get')
+    @patch.object(WatsonService, 'get_watson_text_analyze')
+    def test_POST_recommendation_called_with_specific_params(self, mock_sentiment, mock_get):
+        # Set up mock functions
+        file_path = 'tests/fixtures/watson_positive.json'
+        with open(file_path) as json_file:
+            ml_data = json.load(json_file)
+
+        mock_sentiment.return_value = ml_data
+
+        file_path = 'tests/fixtures/spotify_tracks.json'
+        with open(file_path) as json_file:
+            tracks_data = json.load(json_file)
+
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = tracks_data
+
+        # Check that Spotify API is called with correct parameters when genre setting is 'classical'
+        data = {
+            'text': 'Super positive great happy fun awesome great wonderful times',
+            'current_mood': 0,
+            'access_token': 'totally-real-access-token',
+            'genre': 'classical'
+        }
+
+        response = self.app.post('/api/v1/recommendation',
+                                 data=json.dumps(data),
+                                 content_type='application/json')
+
+        mock_get.assert_called_with(
+            'https://api.spotify.com/v1/recommendations',
+            headers={'Authorization': 'Bearer totally-real-access-token'},
+            params={
+                'valence': 1,
+                'mode': 1,
+                'seed_genres': 'classical',
+                'limit': 10
+            }
+        )
+
+        # Check that Spotify API is called with correct parameters when genre setting is 'piano'
+        data2 = {
+            'text': 'Super positive great happy fun awesome great wonderful times',
+            'current_mood': 0,
+            'access_token': 'totally-real-access-token',
+            'genre': 'piano'
+        }
+
+        response = self.app.post('/api/v1/recommendation',
+                                 data=json.dumps(data2),
+                                 content_type='application/json')
+
+        mock_get.assert_called_with(
+            'https://api.spotify.com/v1/recommendations',
+            headers={'Authorization': 'Bearer totally-real-access-token'},
+            params={
+                'valence': 1,
+                'mode': 1,
+                'seed_genres': 'piano',
+                'limit': 10
+            }
+        )
+
+        # Check that Spotify API is called with correct parameters when genre setting is 'electronic'
+        data3 = {
+            'text': 'Super positive great happy fun awesome great wonderful times',
+            'current_mood': 0,
+            'access_token': 'totally-real-access-token',
+            'genre': 'electronic'
+        }
+
+        response = self.app.post('/api/v1/recommendation',
+                                 data=json.dumps(data3),
+                                 content_type='application/json')
+
+        mock_get.assert_called_with(
+            'https://api.spotify.com/v1/recommendations',
+            headers={'Authorization': 'Bearer totally-real-access-token'},
+            params={
+                'valence': 1,
+                'mode': 1,
+                'seed_genres': 'idm',
+                'limit': 10
+            }
+        )
+
 
 if __name__ == "__main__":
     unittest.main()
