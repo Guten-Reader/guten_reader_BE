@@ -4,7 +4,6 @@ from unittest.mock import patch
 from app import app
 from services.monkeylearn_service import MonkeyLearnService
 from services.watson_service import WatsonService
-from ibm_cloud_sdk_core.authenticators import IAMAuthenticator
 from services.spotify_service import SpotifyService
 
 class TestWatsonOutage(unittest.TestCase):
