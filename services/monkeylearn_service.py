@@ -8,6 +8,15 @@ class MonkeyLearnService:
         self.model = MonkeyLearn(os.environ.get('MONKEYLEARN_KEY'))
         self.model_id = os.environ.get('MONKEYLEARN_MODEL_ID')
 
+    def get_sentiment_value(self):
+        mood = self.mood_value()
+        if mood == 'Positive':
+            return 1
+        elif mood == 'Negative':
+            return 0
+        else:
+            return 0.5
+
 
     def text_sentiment(self):
         response = self.model.classifiers.classify(
